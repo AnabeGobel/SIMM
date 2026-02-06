@@ -1,0 +1,86 @@
+@import 'tailwindcss';
+@import 'bootstrap';
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+
+
+
+
+
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+/*Style for adm */
+
+ /* Navbar links */
+    .nav .nav-link {
+        color: #212529 !important;
+    }
+    .nav .nav-link:hover,
+    .nav .nav-link.active {
+        color: #0A1F44 !important;
+        font-weight: 500;
+    }
+
+    /* Ajuste do título */
+    h2.text-primary {
+        font-size: 1.75rem; /* menor que display-6 */
+        margin-bottom: 1rem;
+        color:#0A1F44 !important;
+    }
+    h3.text-primary {
+        color:#0A1F44 !important;
+    }
+    /* botao sem fundo*/
+    .loc{
+        border-color: #0A1F44 !important;
+        color: #000 !important;
+
+    }
+    .loc:hover{
+         background-color: #0A1F44 !important;
+        color:white !important;
+    }
+    .modal-header{
+        background-color: #0A1F44 !important;
+    }
+
+  /*Style for operator */
+  
+  /*botoes com fundo*/
+
+  .loc2{
+    background-color: #0A1F44 !important;
+        color:white !important;
+        border-color: white;
+        outline-color:white ;
+  }
+  /*botoes sem fundo*/
+  .loc1{
+     border-color: #0A1F44 !important;
+        color: #000 !important;
+
+  }
+  .loc1:hover{
+         background-color: #0A1F44 !important;
+        color:white !important;
+    }
+    h3.page-title{
+        color:#0A1F44 !important;
+
+    }
+    h4.text-primary{
+        color:#0A1F44 !important;
+
+    }
+
+   
+
+   

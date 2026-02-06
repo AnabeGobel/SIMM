@@ -1,0 +1,85 @@
+.menu-principal {
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .menu-principal {
+        max-height: 0;
+    }
+
+    .menu-principal.aberto {
+        max-height: 1000px; /* grande o suficiente para todos os links */
+        overflow: visible;   /* permite clicar nos links */
+    }
+
+    .nav .nav-link {
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+        display: block;
+    }
+}
+
+/* DESKTOP */
+@media (min-width: 769px) {
+    .menu-principal {
+        max-height: none !important;
+        overflow: visible;
+    }
+}
+ /* Navbar links */
+    .nav .nav-link {
+        color: #212529 !important;
+    }
+    .nav .nav-link:hover,
+    .nav .nav-link.active {
+        color: #0A1F44 !important;
+        font-weight: 500;
+    }
+
+    /* Ajuste do título */
+    h2.text-primary {
+        font-size: 1.75rem; /* menor que display-6 */
+        margin-bottom: 1rem;
+    }
+
+   
+    .btn{
+        border-color: #0A1F44 !important;
+        color: #0A1F44 !important;
+
+    }
+    .btn:hover{
+        background-color: #0A1F44 !important;
+        color:white !important;
+
+    }
+    /* Navbar links */
+    .nav .nav-link {
+        color: #212529 !important;
+    }
+    .nav .nav-link:hover,
+    .nav .nav-link.active {
+        color: #0A1F44 !important;
+        font-weight: 500;
+    }
+
+    /* Ajuste do título */
+    h2.text-primary {
+        font-size: 1.75rem; /* menor que display-6 */
+        margin-bottom: 1rem;
+    }
+
+   
+    .btn{
+        border-color: #0A1F44 !important;
+        color: #0A1F44 !important;
+
+    }
+    .btn:hover{
+        background-color: #0A1F44 !important;
+        color:white !important;
+
+    }
