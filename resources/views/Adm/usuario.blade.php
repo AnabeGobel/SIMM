@@ -64,11 +64,11 @@
 </div>
 
     <!-- Busca -->
-    <form class="d-flex mb-3 flex-wrap" role="search" method="GET" action="{{ route('usuarios.index') }}">
+    <form class="d-flex mb-3 flex-wrap" role="search" method="GET" action="{{ route('Adm.usuario') }}">
         <input class="form-control me-2 mb-2 flex-grow-1" type="search" name="q" placeholder="Buscar usuário..." value="{{ request('q') }}">
         <button class="btn btn-outline-primary mb-2 loc" type="submit"><i class="bi bi-search"></i></button>
     </form>
-
+    
     <!-- Tabela responsiva -->
     <div class="table-responsive">
        <table class="table table-hover align-middle">

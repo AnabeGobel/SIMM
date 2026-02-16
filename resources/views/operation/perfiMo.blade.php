@@ -90,7 +90,7 @@ h5.sub-title { font-size: 1rem; font-weight: 600; }
                 <li class="nav-item"><a class="nav-link" href="{{ route('operador.ocorrencia') }}"><i class="bi bi-clock-history me-2"></i> Ocorrência</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('perfil') }}"><i class="bi bi-person-badge me-2"></i> Perfil Completo</a></li>
                 <li class="nav-item mt-3">
-                    <form method="GET" action="{{ route('login.index') }}">
+                    <form method="GET" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="btn btn-outline-danger w-100"><i class="bi bi-box-arrow-right me-1"></i> Sair</button>
                     </form>

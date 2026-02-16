@@ -42,11 +42,12 @@ return back()->withErrors([
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+       Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+    // Alterado de 'login' para 'login.index'
+    return redirect()->route('login.index');
         
     }
     

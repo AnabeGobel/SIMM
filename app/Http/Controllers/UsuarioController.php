@@ -10,16 +10,29 @@ class UsuarioController extends Controller
 {
     
     // Lista todos os usuários
-   public function index(Request $request)
+public function index(Request $request)
 {
-    // Busca todos os usuários (você pode adicionar filtro de busca se quiser)
-    $usuarios = Usuarios::paginate(10);
+    // Captura o termo de busca
+    $search = $request->input('q');
 
-    // Calcula o total de administradores e operadores
+    // Inicia a query
+    $query = Usuarios::query();
+
+    // Se houver busca, filtra por nome ou email
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'LIKE', "%{$search}%")
+              ->orWhere('email', 'LIKE', "%{$search}%");
+        });
+    }
+
+    // Paginação (mantendo os filtros na URL da paginação)
+    $usuarios = $query->paginate(10)->appends(['q' => $search]);
+
+    // Totais (estatísticas costumam ignorar o filtro de busca para mostrar o geral)
     $totalAdmins = Usuarios::where('role', 'admin')->count();
     $totalOperadores = Usuarios::where('role', 'operador')->count();
 
-    // Passa todas as variáveis para a view
     return view('Adm.usuario', compact('usuarios', 'totalAdmins', 'totalOperadores'));
 }
 
@@ -83,7 +96,7 @@ class UsuarioController extends Controller
     // Remove usuário (apenas operador)
     public function destroy($id)
     {
-        if (auth()->user()->role !== 'operador') {
+        if (auth()->user()->role !== 'admin') {
             abort(403);
         }
 
