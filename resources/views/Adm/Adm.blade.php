@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','SIMM - Operador | Perfil do Usuário')
+@section('title','SIMM - Administrador| Perfil do Usuário')
 
 @section('content')
 

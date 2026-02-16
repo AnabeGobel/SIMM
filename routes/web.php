@@ -54,8 +54,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::post('/usuarios/store', [UsuarioController::class, 'store'])->name('usuarios.store');
            });
 
-//0.3 rotas para visualizacao tabela
-        Route::get('/admin/usuarios', [UsuarioController::class, 'usuarios'])->name('Adm.usuario');
 
 //0.4 Rotas para usuários (CRUD completo)
             Route::prefix('index')->middleware('auth')->group(function () {
