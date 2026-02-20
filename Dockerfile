@@ -45,3 +45,6 @@ EXPOSE 8080
 
 # 11. Entrypoint
 CMD ["php-fpm"]
+CMD php -S 0.0.0.0:$PORT -t public
+
+
