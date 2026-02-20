@@ -1,43 +1,38 @@
-# Usar PHP 8.2 com Apache
+# 1️⃣ Base: PHP + Apache
 FROM php:8.2-apache
 
-# Instalar dependências do sistema
+# 2️⃣ Instalar dependências do sistema
 RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    git \
-    curl \
-    libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+    libpng-dev libonig-dev libxml2-dev zip unzip git curl libzip-dev nodejs npm \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
+    && a2enmod rewrite
 
-# Ativar mod_rewrite do Apache
-RUN a2enmod rewrite
-
-# Definir diretório de trabalho
+# 3️⃣ Diretório de trabalho
 WORKDIR /var/www/html
 
-# Copiar composer e instalar dependências
-COPY composer.json composer.lock ./
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install --no-dev --optimize-autoloader
-
-# Copiar todo o projeto
+# 4️⃣ Copiar todo o projeto Laravel
 COPY . .
 
-# Instalar Node.js e dependências do front-end
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
-RUN apt-get install -y nodejs
+# 5️⃣ Instalar Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# 6️⃣ Instalar dependências PHP
+RUN composer install --no-dev --optimize-autoloader
+
+# 7️⃣ Instalar dependências Node.js e build dos assets
 RUN npm install
 RUN npm run build
 
-# Dar permissão para storage e bootstrap/cache
+# 8️⃣ Ajustar permissões
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expor porta 80
+# 9️⃣ Variáveis de ambiente Railway (opcional)
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV APP_KEY=base64:COLOQUE_SUA_CHAVE_AQUI
+
+# 1️⃣0️⃣ Expor porta padrão do Apache
 EXPOSE 80
 
-# Rodar o Apache
+# 1️⃣1️⃣ Comando para rodar Apache
 CMD ["apache2-foreground"]
