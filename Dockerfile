@@ -1,38 +1,47 @@
-# 1️⃣ Base: PHP + Apache
-FROM php:8.2-apache
+# 1. Escolher a imagem base com PHP 8.2 + Composer + Node
+FROM php:8.2-fpm
 
-# 2️⃣ Instalar dependências do sistema
+# 2. Instalar dependências do sistema e extensões PHP necessárias
 RUN apt-get update && apt-get install -y \
-    libpng-dev libonig-dev libxml2-dev zip unzip git curl libzip-dev nodejs npm \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
-    && a2enmod rewrite
+    libzip-dev \
+    unzip \
+    git \
+    curl \
+    libonig-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    npm \
+    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd
 
-# 3️⃣ Diretório de trabalho
+# 3. Definir diretório de trabalho
 WORKDIR /var/www/html
 
-# 4️⃣ Copiar todo o projeto Laravel
-COPY . .
+# 4. Copiar apenas arquivos de dependências primeiro (otimização de build)
+COPY composer.json composer.lock ./
 
-# 5️⃣ Instalar Composer
+# 5. Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# 6️⃣ Instalar dependências PHP
+# 6. Instalar dependências do PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# 7️⃣ Instalar dependências Node.js e build dos assets
-RUN npm install
+# 7. Copiar todo o projeto
+COPY . .
+
+# 8. Instalar dependências do Node para assets (CSS, JS)
+RUN npm install --production
 RUN npm run build
 
-# 8️⃣ Ajustar permissões
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# 9. Rodar caches e migrações
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
+RUN php artisan migrate --force
 
-# 9️⃣ Variáveis de ambiente Railway (opcional)
-ENV APP_ENV=production
-ENV APP_DEBUG=false
-ENV APP_KEY=base64:COLOQUE_SUA_CHAVE_AQUI
+# 10. Expor porta (Railway vai mapear automaticamente)
+EXPOSE 8080
 
-# 1️⃣0️⃣ Expor porta padrão do Apache
-EXPOSE 80
-
-# 1️⃣1️⃣ Comando para rodar Apache
-CMD ["apache2-foreground"]
+# 11. Entrypoint
+CMD ["php-fpm"]
