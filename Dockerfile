@@ -1,7 +1,7 @@
-# 1. Escolher a imagem base com PHP 8.2 + Composer + Node
+# 1. Escolher a imagem base
 FROM php:8.2-fpm
 
-# 2. Instalar dependências do sistema e extensões PHP necessárias
+# 2. Instalar dependências do sistema
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     unzip \
@@ -12,39 +12,34 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     zip \
-    npm \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd
+
+# Instalar Node.js de forma mais estável para o Vite
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
 
 # 3. Definir diretório de trabalho
 WORKDIR /var/www/html
 
-# 4. Copiar apenas arquivos de dependências primeiro (otimização de build)
-COPY composer.json composer.lock ./
-
-# 5. Instalar Composer
+# 4. Instalar Composer primeiro
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# 6. Instalar dependências do PHP
-RUN composer install --no-dev --optimize-autoloader
-
-# 7. Copiar todo o projeto
+# 5. COPIAR TUDO PRIMEIRO (Para o Artisan estar presente)
 COPY . .
 
-# 8. Instalar dependências do Node para assets (CSS, JS)
-RUN npm install --production
+# 6. Agora instalar dependências do PHP (com o arquivo artisan já presente)
+RUN composer install --no-dev --optimize-autoloader
+
+# 7. Build do Vite (CSS e JS)
+RUN npm install
 RUN npm run build
 
-# 9. Rodar caches e migrações
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
-RUN php artisan migrate --force
+# 8. Permissões de pastas (Essencial para o Laravel não dar erro 500)
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 10. Expor porta (Railway vai mapear automaticamente)
-EXPOSE 8080
-
-# 11. Entrypoint
-CMD ["php-fpm"]
-CMD php -S 0.0.0.0:$PORT -t public
-
-
+# 9. Comando de Inicialização
+# Removi as migrações daqui porque o banco pode não estar pronto no build.
+# Vamos rodar os caches e o servidor.
+CMD php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache && \
+    php -S 0.0.0.0:$PORT -t public
