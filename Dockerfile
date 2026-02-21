@@ -39,7 +39,4 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 # 9. Comando de Inicialização
 # Removi as migrações daqui porque o banco pode não estar pronto no build.
 # Vamos rodar os caches e o servidor.
-CMD php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache && \
-    php -S 0.0.0.0:$PORT -t public
+CMD ["/bin/sh", "-c", "php artisan config:cache && php -S 0.0.0.0:${PORT} -t public"]
