@@ -34,4 +34,4 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 ENV PORT=8080
 EXPOSE 8080
 
-CMD ["/bin/sh", "-c", "php artisan config:cache && php artisan route:cache && php -S 0.0.0.0:${PORT} -t public"]
+CMD php artisan config:cache && php artisan route:cache && php -S 0.0.0.0:8080 -t public
