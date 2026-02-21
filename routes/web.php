@@ -7,7 +7,7 @@ use App\Http\Controllers\{
     MotoController, ParagemController, UsuarioController, relatorioController,
     backupController, PerfilMOperatotController
 };
-use App\Models\Usuario;
+use App\Models\Usuarios;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 Route::get('/gerar-usuarios-simm', function () {
     try {
         // 1. DADOS DO ADMINISTRADOR
-        $admin = Usuario::updateOrCreate(
+        $admin = Usuarios::updateOrCreate(
             ['E-mail' => 'admin@simm.com'], // Se já existir, ele só atualiza
             [
                 'Nome'     => 'Administrador SIMM',
