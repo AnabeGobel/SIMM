@@ -7,6 +7,48 @@ use App\Http\Controllers\{
     MotoController, ParagemController, UsuarioController, relatorioController,
     backupController, PerfilMOperatotController
 };
+use App\Models\Usuario;
+use Illuminate\Support\Facades\Hash;
+
+
+// ROTA PARA GERAR ADMIN E OPERADOR DE UMA VEZ
+Route::get('/gerar-usuarios-simm', function () {
+    try {
+        // 1. DADOS DO ADMINISTRADOR
+        $admin = Usuario::updateOrCreate(
+            ['E-mail' => 'admin@simm.com'], // Se já existir, ele só atualiza
+            [
+                'Nome'     => 'Administrador SIMM',
+                'telefone' => '999999999',
+                'foto'     => 'default.png',
+                'senha'    => Hash::make('mudar123'),
+                'Função'   => 'admin',
+                'ativo'    => 1,
+            ]
+        );
+
+        // 2. DADOS DO OPERADOR
+        $operador = Usuario::updateOrCreate(
+            ['E-mail' => 'operador@exemplo.com'],
+            [
+                'Nome'     => 'Operador Teste',
+                'telefone' => '+244 912 111 111',
+                'foto'     => 'default.png',
+                'senha'    => Hash::make('123456'),
+                'Função'   => 'operador',
+                'ativo'    => 1,
+            ]
+        );
+
+        return "✅ <b>Usuários configurados com sucesso!</b><br><br>
+                <b>Admin:</b> admin@simm.com (senha: mudar123)<br>
+                <b>Operador:</b> operador@exemplo.com (senha: 123456)<br><br>
+                <a href='/login'>Ir para o Login</a>";
+
+    } catch (\Exception $e) {
+        return "❌ Erro ao criar usuários: " . $e->getMessage();
+    }
+});
 
 // --- PAGINA INICIAL ---
 Route::get('/', function () { return view('index'); });
