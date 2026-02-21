@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 // ROTA PARA GERAR ADMIN E OPERADOR DE UMA VEZ
 Route::get('/gerar-usuarios-simm', function () {
     try {
-        // 1. DADOS DO ADMINISTRADOR
+        // 1. DADOS DO ADMINISTRADOR   ola
         $admin = Usuarios::updateOrCreate(
             ['E-mail' => 'admin@simm.com'], // Se já existir, ele só atualiza
             [
