@@ -1,42 +1,37 @@
-# 1. Escolher a imagem base
+# 1. Imagem base
 FROM php:8.2-fpm
 
 # 2. Instalar dependências do sistema
 RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    unzip \
-    git \
-    curl \
-    libonig-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    zip \
+    libzip-dev unzip git curl libonig-dev libpng-dev \
+    libjpeg-dev libfreetype6-dev zip \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd
 
-# Instalar Node.js de forma mais estável para o Vite
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
+# 3. INSTALAR NODE.JS (Necessário para o Vite compilar o CSS)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
 
-# 3. Definir diretório de trabalho
+# 4. Diretório de trabalho
 WORKDIR /var/www/html
 
-# 4. Instalar Composer primeiro
+# 5. Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# 5. COPIAR TUDO PRIMEIRO (Para o Artisan estar presente)
+# 6. Copiar arquivos do projeto (Vem ANTES do composer install para ter o arquivo artisan)
 COPY . .
 
-# 6. Agora instalar dependências do PHP (com o arquivo artisan já presente)
+# 7. Instalar dependências do PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# 7. Build do Vite (CSS e JS)
-RUN npm install
-RUN npm run build
+# 8. COMPILAR CSS/JS COM VITE
+# Isso resolve o problema do site vir "sem estilo"
+RUN npm install && npm run build
 
-# 8. Permissões de pastas (Essencial para o Laravel não dar erro 500)
+# 9. Permissões (Evita erro 500)
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 9. Comando de Inicialização
-# Removi as migrações daqui porque o banco pode não estar pronto no build.
-# Vamos rodar os caches e o servidor.
-CMD ["/bin/sh", "-c", "php artisan config:cache && php -S 0.0.0.0:${PORT} -t public"]
+# 10. Porta e Comando de Inicialização (Usando técnica para evitar erro de string/int)
+ENV PORT=8080
+EXPOSE 8080
+
+CMD ["/bin/sh", "-c", "php artisan config:cache && php artisan route:cache && php -S 0.0.0.0:${PORT} -t public"]
