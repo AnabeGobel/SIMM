@@ -17,7 +17,7 @@ Route::get('/gerar-usuarios-simm', function () {
     try {
         // 1. DADOS DO ADMINISTRADOR   ola
         $admin = usuario::updateOrCreate(
-            ['E-mail' => 'admin@simm.com'], // Se já existir, ele só atualiza
+            ['email' => 'admin@simm.com'], // Se já existir, ele só atualiza
             [
                 'Nome'     => 'Administrador SIMM',
                 'telefone' => '999999999',
@@ -30,7 +30,7 @@ Route::get('/gerar-usuarios-simm', function () {
 
         // 2. DADOS DO OPERADOR
         $operador = usuario::updateOrCreate(
-            ['E-mail' => 'operador@exemplo.com'],
+            ['email' => 'operador@exemplo.com'],
             [
                 'Nome'     => 'Operador Teste',
                 'telefone' => '+244 912 111 111',
