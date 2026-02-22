@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Motoqueiro;
+use App\Models\motoqueiro;
 use Illuminate\Support\Facades\Hash;
 class OperadorController extends Controller
 {
@@ -15,7 +15,7 @@ class OperadorController extends Controller
 
     public function index(Request $request)
     {
-        $query = Motoqueiro::with(['associacao', 'paragem', 'motos']);
+        $query = motoqueiro::with(['associacao', 'paragem', 'motos']);
 
         if ($request->filled('nome')) {
             $query->where('nome', 'like', '%' . $request->nome . '%');

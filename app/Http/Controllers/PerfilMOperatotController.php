@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Motoqueiro;
-use App\Models\Moto;
-use App\Models\Associacao;
-use App\Models\Paragem;
-use App\Models\Ocorrencias;
+use App\Models\motoqueiro;
+use App\Models\moto;
+use App\Models\associacao;
+use App\Models\paragem;
+use App\Models\ocorrencias;
 
 class PerfilMOperatotController extends Controller
 {
@@ -20,7 +20,7 @@ class PerfilMOperatotController extends Controller
     $resultado = null;
 
     if ($q) {
-        $resultado = Motoqueiro::with([
+        $resultado = motoqueiro::with([
                 'associacao',
                 'paragem',
                 'motos',

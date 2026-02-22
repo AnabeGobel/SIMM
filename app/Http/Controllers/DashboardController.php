@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Motoqueiro;
-use App\Models\Moto;
-use App\Models\Associacao;
-use App\Models\Paragem;
+use App\Models\motoqueiro;
+use App\Models\moto;
+use App\Models\associacao;
+use App\Models\paragem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -15,12 +15,12 @@ class DashboardController extends Controller
      */
 public function index()
 {
-    $totalMotoqueiros = Motoqueiro::count();
-    $totalAssociacoes = Associacao::count();
-    $totalParagens = Paragem::count();
+    $totalMotoqueiros = motoqueiro::count();
+    $totalAssociacoes = associacao::count();
+    $totalParagens = paragem::count();
 
-    $ativos = Motoqueiro::where('estado', 'Ativo')->count();
-    $inativos = Motoqueiro::where('estado', 'Inativo')->count();
+    $ativos = motoqueiro::where('estado', 'Ativo')->count();
+    $inativos = motoqueiro::where('estado', 'Inativo')->count();
 
     // Criar dados manuais para os gráficos
     $meses = ['Jan','Fev','Mar','Abr','Mai','Jun']; // meses fixos
@@ -92,12 +92,12 @@ public function index()
     $q = $request->q;
 
     // 1️⃣ Motoqueiro
-    if (Motoqueiro::where('nome', 'like', "%$q%")->exists()) {
+    if (motoqueiro::where('nome', 'like', "%$q%")->exists()) {
         return redirect()->route('admin.motoqueiros.index', ['q' => $q]);
     }
 
     // 2️⃣ Moto (placa, marca, número)
-    if (Moto::where('placa', 'like', "%$q%")
+    if (moto::where('placa', 'like', "%$q%")
         ->orWhere('marca', 'like', "%$q%")
         ->orWhere('numero_mota', 'like', "%$q%")
         ->exists()) {
@@ -105,7 +105,7 @@ public function index()
     }
 
     // 3️⃣ Associação
-    if (Associacao::where('nome', 'like', "%$q%")->exists()) {
+    if (associacao::where('nome', 'like', "%$q%")->exists()) {
         return redirect()->route('associacao.index', ['q' => $q]);
     }
 

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Moto extends Model
+class moto extends Model
 {
     protected $table = 'motos';
 
@@ -23,6 +23,6 @@ class Moto extends Model
 
     public function motoqueiro()
     {
-        return $this->belongsTo(Motoqueiro::class);
+        return $this->belongsTo(motoqueiro::class);
     }
 }

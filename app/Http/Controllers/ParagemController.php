@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Paragem;
+use App\Models\paragem;
 
 class ParagemController extends Controller
 {
@@ -34,7 +34,7 @@ class ParagemController extends Controller
             'bairro' => 'required|string|max:100',
         ]);
 
-        Paragem::create([
+        paragem::create([
             'nome' => $request->nome,
             'bairro' => $request->bairro,
         ]);

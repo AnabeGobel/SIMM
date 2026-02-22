@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Associacao extends Model
+class associacao extends Model
 {
     // 🔹 Nome da tabela
     protected $table = 'associacoes';

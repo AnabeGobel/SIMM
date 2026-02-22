@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Associacao;
+use App\Models\associacao;
 
 class AssociacaoController extends Controller
 {
@@ -16,7 +16,7 @@ class AssociacaoController extends Controller
     $q = $request->input('q');
 
     // 🔹 Busca associações pelo nome ou cor
-    $associacoes = \App\Models\Associacao::query()
+    $associacoes = \App\Models\associacao::query()
         ->when($q, function($query) use ($q) {
             $query->where('nome', 'like', "%{$q}%")
                   ->orWhere('cor_uniforme', 'like', "%{$q}%");
@@ -42,7 +42,7 @@ class AssociacaoController extends Controller
         ]);
 
         // Cria a associação no banco
-        Associacao::create($request->all());
+        associacao::create($request->all());
 
         return redirect()->back()->with('success', 'Associação criada com sucesso!');
     }
@@ -59,7 +59,7 @@ class AssociacaoController extends Controller
     ]);
 
     // 🔹 Busca a associação pelo ID
-    $associacao = Associacao::findOrFail($id);
+    $associacao = associacao::findOrFail($id);
 
     // 🔹 Atualiza os dados da associação com os dados validados
     $associacao->update([
@@ -78,7 +78,7 @@ class AssociacaoController extends Controller
 public function destroy($id)
 {
     // 🔹 Busca a associação pelo ID ou falha com 404
-    $associacao = Associacao::findOrFail($id);
+    $associacao = associacao::findOrFail($id);
 
     // 🔹 Exclui a associação do banco
     $associacao->delete();

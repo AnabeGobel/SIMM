@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Motoqueiro;
-use App\Models\Moto;
-use App\Models\Associacao;
-use App\Models\Paragem;
+use App\Models\motoqueiro;
+use App\Models\moto;
+use App\Models\associacao;
+use App\Models\paragem;
 
 class MotoqueiroController extends Controller
 {
@@ -18,7 +18,7 @@ public function index(Request $request)
     $q = $request->q;
 
     // Pega todos os motoqueiros com relacionamentos
-    $motoqueiros = Motoqueiro::with('motos', 'associacao', 'paragem')
+    $motoqueiros = motoqueiro::with('motos', 'associacao', 'paragem')
         ->when($q, function($query) use ($q) {
             $query->where('nome', 'like', "%{$q}%")
                   ->orWhere('cor_uniforme', 'like', "%{$q}%")
@@ -29,8 +29,8 @@ public function index(Request $request)
         ->orderBy('criado_em', 'desc')
         ->get();
 
-    $associacoes = Associacao::all();
-    $paragens = Paragem::all();
+    $associacoes = associacao::all();
+    $paragens = paragem::all();
 
     return view('Adm.motoqueiro', compact('motoqueiros', 'associacoes', 'paragens'));
 }
@@ -68,7 +68,7 @@ public function store(Request $request)
     $path = $request->file('foto')->store('motoqueiros', 'public');
     $data['foto'] = $path; // EX: motoqueiros/GFfQqtSnFlUKSkbjLKgOkZrBI.jpg
 }
-    Motoqueiro::create($data);
+    motoqueiro::create($data);
 
     return redirect()->back()->with('success', 'Motoqueiro cadastrado com sucesso!');
 }
@@ -95,7 +95,7 @@ public function store(Request $request)
      */
 public function update(Request $request, $id)
 {
-    $motoqueiro = Motoqueiro::findOrFail($id);
+    $motoqueiro = motoqueiro::findOrFail($id);
 
     $request->validate([
         'nome' => 'required|string|max:100',
@@ -132,7 +132,7 @@ public function update(Request $request, $id)
      */
 public function destroy($id)
 {
-    Motoqueiro::findOrFail($id)->delete();
+    motoqueiro::findOrFail($id)->delete();
 
     return redirect()->back()->with('success', 'Removido com sucesso');
 }

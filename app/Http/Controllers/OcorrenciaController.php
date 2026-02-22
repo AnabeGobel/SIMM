@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Ocorrencias;
-use App\Models\Motoqueiro;
+use App\Models\ocorrencias;
+use App\Models\motoqueiro;
 use App\Models\usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,11 +11,11 @@ class OcorrenciaController extends Controller
 {
     public function index()
     {
-        $ocorrencias = Ocorrencias::with(['motoqueiro', 'operador'])
+        $ocorrencias = ocorrencias::with(['motoqueiro', 'operador'])
             ->orderBy('criado_em', 'desc')
             ->get();
 
-        $motoqueiros = Motoqueiro::all();
+        $motoqueiros = motoqueiro::all();
 
         return view('operation.ocorrencia', compact('ocorrencias', 'motoqueiros'));
     }
@@ -31,7 +31,7 @@ class OcorrenciaController extends Controller
             'estado' => 'required'
         ]);
 
-        Ocorrencias::create([
+        ocorrencias::create([
             'motoqueiro_id' => $request->motoqueiro_id,
             'operador_id'    => Auth::id(),
             'tipo'          => $request->tipo,
@@ -46,7 +46,7 @@ class OcorrenciaController extends Controller
 
     public function destroy($id)
     {
-        Ocorrencias::findOrFail($id)->delete();
+        ocorrencias::findOrFail($id)->delete();
         return redirect()->back()->with('success', 'Ocorrência removida!');
     }
 }

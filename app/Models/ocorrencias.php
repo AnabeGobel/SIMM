@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 
-    class Ocorrencias extends Model
+    class ocorrencias extends Model
 {
     protected $table = 'ocorrencias';
     public $timestamps = false;
@@ -23,11 +23,11 @@ protected $dates = ['criado_em'];
 
     public function motoqueiro()
     {
-        return $this->belongsTo(Motoqueiro::class);
+        return $this->belongsTo(motoqueiro::class);
     }
 
     public function operador()
     {
-        return $this->belongsTo(Usuarios::class, 'operador_id');
+        return $this->belongsTo(usuario::class, 'operador_id');
     }
 }

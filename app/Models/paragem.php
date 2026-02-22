@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Paragem extends Model
+class paragem extends Model
 {
     protected $table = 'paragens';
 

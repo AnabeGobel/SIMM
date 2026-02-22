@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Moto;
-use App\Models\Motoqueiro;
+use App\Models\moto;
+use App\Models\motoqueiro;
 
 class MotoController extends Controller
 {
@@ -17,7 +17,7 @@ class MotoController extends Controller
     $q = $request->q;
 
     //  Busca motos com relacionamento e filtro
-    $motos = Moto::with('motoqueiro')
+    $motos = moto::with('motoqueiro')
         ->when($q, function ($query) use ($q) {
             $query->where('placa', 'like', "%{$q}%")
                   ->orWhere('marca', 'like', "%{$q}%")
@@ -59,7 +59,7 @@ class MotoController extends Controller
             'estado_legal' => 'required|string|max:20',
         ]);
 
-        Moto::create($request->all());
+        moto::create($request->all());
 
         return redirect()->back()->with('success', 'Moto cadastrada com sucesso!');
     }
@@ -85,7 +85,7 @@ class MotoController extends Controller
      */
    public function update(Request $request, $id)
 {
-    $moto = Moto::findOrFail($id);
+    $moto = moto::findOrFail($id);
     $moto->update($request->all());
 
     return redirect()->back()->with('success', 'Moto atualizada!');
@@ -97,7 +97,7 @@ class MotoController extends Controller
      */
     public function destroy($id)
 {
-    Moto::findOrFail($id)->delete();
+    moto::findOrFail($id)->delete();
     return redirect()->back()->with('success', 'Moto removida!');
 }
 }
