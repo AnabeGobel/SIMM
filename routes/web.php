@@ -51,6 +51,10 @@ Route::get('/gerar-usuarios-simm', function () {
         return "❌ Erro ao criar usuários: " . $e->getMessage();
     }
 });
+Route::get('/force-link', function () {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return "Link simbólico criado!";
+});
 
 // --- PAGINA INICIAL ---
 Route::get('/', function () { return view('index'); });
