@@ -52,7 +52,7 @@
     </div>
 
     <!-- Busca -->
-    <form class="d-flex mb-3 flex-wrap" role="search" method="GET" action="{{ route('motos.index') }}">
+    <form class="d-flex mb-3 flex-wrap" role="search" method="GET" action="{{  route('admin.motos.index') }}">
     <input
         class="form-control me-2 mb-2 flex-grow-1"
         type="search"

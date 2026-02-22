@@ -42,8 +42,5 @@
     </main>
 
     <!-- Rodapé -->
-    <footer class="bg-dark text-center py-4 mt-auto">
-        <p class="mb-1 text-white fw-bold">Desenvolvido por Anabe Digital</p>
-        <small class="text-white-50">Sistema criado para monitoramento e gestão de mototax. Todos os direitos reservados.</small>
-    </footer>
+  
 @endsection
