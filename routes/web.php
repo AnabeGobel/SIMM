@@ -7,8 +7,9 @@ use App\Http\Controllers\{
     MotoController, ParagemController, UsuarioController, relatorioController,
     backupController, PerfilMOperatotController
 };
-use App\Models\Usuario;
+
 use Illuminate\Support\Facades\Hash;
+use App\Models\Usuario;
 
 
 // ROTA PARA GERAR ADMIN E OPERADOR DE UMA VEZ
