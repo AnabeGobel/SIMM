@@ -8,8 +8,8 @@ use App\Http\Controllers\{
     backupController, PerfilMOperatotController
 };
 
+use App\Models\Usuario; // Com U maiúsculo e no singular
 use Illuminate\Support\Facades\Hash;
-use App\Models\Usuario;
 
 
 // ROTA PARA GERAR ADMIN E OPERADOR DE UMA VEZ
