@@ -8,7 +8,7 @@ use App\Http\Controllers\{
     backupController, PerfilMOperatotController
 };
 
-use App\Models\Usuario; // Com U maiúsculo e no singular
+use App\Models\usuario; // Com U maiúsculo e no singular
 use Illuminate\Support\Facades\Hash;
 
 
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 Route::get('/gerar-usuarios-simm', function () {
     try {
         // 1. DADOS DO ADMINISTRADOR   ola
-        $admin = Usuario::updateOrCreate(
+        $admin = usuario::updateOrCreate(
             ['E-mail' => 'admin@simm.com'], // Se já existir, ele só atualiza
             [
                 'Nome'     => 'Administrador SIMM',
@@ -29,7 +29,7 @@ Route::get('/gerar-usuarios-simm', function () {
         );
 
         // 2. DADOS DO OPERADOR
-        $operador = Usuario::updateOrCreate(
+        $operador = usuario::updateOrCreate(
             ['E-mail' => 'operador@exemplo.com'],
             [
                 'Nome'     => 'Operador Teste',
