@@ -8,7 +8,7 @@ use App\Http\Controllers\{
     backupController, PerfilMOperatotController
 };
 
-use App\Models\usuario; // Com U maiúsculo e no singular
+use App\Models\usuario; // Com U maiúsculo e no singular olamundo
 use Illuminate\Support\Facades\Hash;
 
 
