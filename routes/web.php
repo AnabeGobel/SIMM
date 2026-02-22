@@ -17,27 +17,28 @@ Route::get('/gerar-usuarios-simm', function () {
     try {
         // 1. DADOS DO ADMINISTRADOR   ola
         $admin = usuario::updateOrCreate(
-            ['email' => 'admin@simm.com'], // Se já existir, ele só atualiza
+             // Se já existir, ele só atualiza
             [
-                'Nome'     => 'Administrador SIMM',
-                'telefone' => '999999999',
-                'foto'     => 'default.png',
-                'senha'    => Hash::make('mudar123'),
-                'Função'   => 'admin',
-                'ativo'    => 1,
+                'name' => 'Administrador',
+                'email' => 'admin@exemplo.com',
+                'password' => Hash::make('123456'),
+                'role' => 'admin',
+                'ativo' => 1,
+                'telefone' => '+244 912 000 000',
+                'foto' => 'default.png', // valor padrão
             ]
         );
 
         // 2. DADOS DO OPERADOR
         $operador = usuario::updateOrCreate(
-            ['email' => 'operador@exemplo.com'],
             [
-                'Nome'     => 'Operador Teste',
+                 'name' => 'Operador Teste',
+                'email' => 'operador@exemplo.com',
+                'password' => Hash::make('123456'),
+                'role' => 'operador',
+                'ativo' => 1,
                 'telefone' => '+244 912 111 111',
-                'foto'     => 'default.png',
-                'senha'    => Hash::make('123456'),
-                'Função'   => 'operador',
-                'ativo'    => 1,
+                'foto' => 'default.png',
             ]
         );
 
