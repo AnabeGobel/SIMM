@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Usuarios;
+use App\Models\Usuario;
 
 class UsuarioController extends Controller
 {
@@ -16,7 +16,7 @@ public function index(Request $request)
     $search = $request->input('q');
 
     // Inicia a query
-    $query = Usuarios::query();
+    $query = Usuario::query();
 
     // Se houver busca, filtra por nome ou email
     if ($search) {
@@ -30,8 +30,8 @@ public function index(Request $request)
     $usuarios = $query->paginate(10)->appends(['q' => $search]);
 
     // Totais (estatísticas costumam ignorar o filtro de busca para mostrar o geral)
-    $totalAdmins = Usuarios::where('role', 'admin')->count();
-    $totalOperadores = Usuarios::where('role', 'operador')->count();
+    $totalAdmins = Usuario::where('role', 'admin')->count();
+    $totalOperadores = Usuario::where('role', 'operador')->count();
 
     return view('Adm.usuario', compact('usuarios', 'totalAdmins', 'totalOperadores'));
 }
@@ -54,7 +54,7 @@ public function index(Request $request)
             'password.regex' => 'A senha deve conter pelo menos uma letra e um número.',
         ]);
 
-                Usuarios::create([
+                Usuario::create([
                 'name'     => $request->name,
                 'email'    => $request->email,
                 'telefone' => $request->telefone, 
@@ -69,7 +69,7 @@ public function index(Request $request)
     // Formulário de edição
     public function edit($id)
     {
-        $usuario = Usuarios::findOrFail($id); // CORRETO: Usuarios
+        $usuario = Usuario::findOrFail($id); // CORRETO: Usuarios
         return view('usuarios.edit', compact('usuario'));
     }
 
@@ -82,7 +82,7 @@ public function index(Request $request)
             'ativo' => 'required|boolean'
         ]);
 
-        $usuario = Usuarios::findOrFail($id); // CORRETO: Usuarios
+        $usuario = Usuario::findOrFail($id); // CORRETO: Usuarios
         $usuario->update([
             'name'  => $request->name,
             'email' => $request->email,
@@ -100,7 +100,7 @@ public function index(Request $request)
             abort(403);
         }
 
-        $usuario = Usuarios::findOrFail($id); // CORRETO: Usuarios
+        $usuario = Usuario::findOrFail($id); // CORRETO: Usuarios
         $usuario->delete();
 
         return redirect()->route('Adm.usuario')

@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ocorrencias;
 use App\Models\Motoqueiro;
-use App\Models\Usuarios;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
