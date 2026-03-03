@@ -148,18 +148,11 @@
 
             <div class="modal-body row g-3">
                 <div class="col-md-4 text-center">
-                 <img src="{{ $moto->motoqueiro->foto 
-            ? asset('storage/' . $moto->motoqueiro->foto) 
-            : asset('images/default-user.png') }}" 
-     class="img-fluid rounded" 
-     alt="Foto do Motoqueiro">
-
-
-
-
-
-                </div>
-
+                        {{-- Ajuste para exibir a foto do Cloudinary que está no Model Motoqueiro --}}
+                        <img src="{{ $moto->motoqueiro->foto ?? asset('images/default-user.png') }}" 
+                            class="img-fluid rounded" 
+                            alt="Foto do Motoqueiro">
+                    </div>
                 <div class="col-md-8">
                     <p><strong>Motoqueiro:</strong> {{ $moto->motoqueiro->nome }}</p>
                     <p><strong>Marca:</strong> {{ $moto->marca }}</p>

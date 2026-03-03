@@ -144,10 +144,12 @@ h5.sub-title { font-size: 1rem; font-weight: 600; }
 
             <!-- Perfil -->
             <div class="profile-card row g-3 align-items-center">
-                <div class="col-md-4 text-center">
-                    <img src="{{ optional($resultado)->foto ? asset('storage/' . $resultado->foto) : asset('images/default-user.png') }}"
-                         class="img-fluid rounded" alt="Foto de {{ $resultado->nome ?? 'motoqueiro' }}" loading="lazy">
-                </div>
+                 <div class="col-md-4 text-center">
+                        {{-- Ajuste para exibir a foto do Cloudinary que está no Model Motoqueiro --}}
+                        <img src="{{ $resultado->foto ?? asset('images/default-user.png') }}" 
+                                class="img-fluid rounded" 
+                                alt="Foto do Motoqueiro">
+                    </div>
                 <div class="col-md-8">
                     @if($resultado)
                         <h5>{{ $resultado->nome }} <span class="badge bg-success">{{ $resultado->estado }}</span></h5>

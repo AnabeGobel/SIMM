@@ -99,8 +99,8 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-md-4 text-center">
-                                            <img src="{{ $usuario->foto ? asset('storage/'.$usuario->foto) : asset('images/default-user.png') }}"
-                                                 class="img-fluid rounded-circle mb-2" width="150">
+                                           <img src="{{ $usuario->foto ?? asset('images/default-user.png') }}"
+                                                 class="img-fluid rounded-circle mb-2" width="150" alt="Foto do usuário">
                                             <form method="POST" action="{{ route('perfilAdm.foto') }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="file" name="foto" class="form-control form-control-sm mb-2">

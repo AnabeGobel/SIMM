@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-
+use Cloudinary\Cloudinary;
 class AdminController extends Controller
 {
     public function dashboard()
@@ -39,15 +39,31 @@ public function atualizarFotoperfilAdm(Request $request)
     ]);
 
     $usuario = auth()->user();
+    $data = [];
 
-    // Apaga foto antiga
-    if ($usuario->foto && Storage::disk('public')->exists($usuario->foto)) {
-        Storage::disk('public')->delete($usuario->foto);
+    if ($request->hasFile('foto')) {
+        $cloudinary = new Cloudinary([
+            'cloud' => [
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_key'    => env('CLOUDINARY_API_KEY'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
+            ],
+            'url' => [
+                'secure' => true
+            ]
+        ]);
+
+        // Upload da nova foto
+        $uploadResult = $cloudinary->uploadApi()->upload(
+            $request->file('foto')->getRealPath(),
+            ['folder' => 'perfis'] // pasta no Cloudinary
+        );
+
+        $data['foto'] = $uploadResult['secure_url'];
     }
 
-    // Salva nova foto
-    $path = $request->file('foto')->store('perfis', 'public');
-    $usuario->update(['foto' => $path]);
+    // Atualiza usuário com a nova foto
+    $usuario->update($data);
 
     return back()->with('success', 'Foto atualizada com sucesso');
 }

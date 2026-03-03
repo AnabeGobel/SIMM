@@ -84,7 +84,10 @@
         <tbody>
         @foreach ($usuarios as $usuario)
 <tr>
-    <td>{{ $usuario->name }}</td>
+   <td>
+    <img src="{{ $usuario->foto ?? asset('images/default-user.png') }}" width="35" height="35" class="rounded-circle me-2" style="object-fit: cover;">
+    {{ $usuario->name }}
+</td>
     <td>{{ $usuario->email }}</td>
     <td>{{ $usuario->telefone ?? '-' }}</td> <!-- ADICIONADO -->
     <td>
@@ -132,7 +135,7 @@
 <!-- Modal Adicionar Usuário -->
 <div class="modal fade" id="addUsuarioModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content" method="POST" action="{{ route('usuarios.store') }}">
+        <form class="modal-content" method="POST" action="{{ route('usuarios.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">Adicionar Usuário</h5>
@@ -157,6 +160,10 @@
                         <option value="0">Inativo</option>
                     </select>
                 </div>
+                <div class="col-md-12">
+                    <label class="form-label">Foto de Perfil</label>
+                    <input type="file" name="foto" class="form-control" accept="image/*">
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -169,7 +176,7 @@
 <!-- Modal Editar Usuário -->
 <div class="modal fade" id="editUsuarioModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content" id="editUsuarioForm" method="POST">
+        <form class="modal-content" id="editUsuarioForm" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="modal-header bg-primary text-white">
@@ -191,6 +198,10 @@
                         <option value="1">Ativo</option>
                         <option value="0">Inativo</option>
                     </select>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Trocar Foto de Perfil (Opcional)</label>
+                    <input type="file" name="foto" class="form-control" accept="image/*">
                 </div>
             </div>
             <div class="modal-footer">

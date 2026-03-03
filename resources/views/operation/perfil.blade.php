@@ -48,7 +48,6 @@
 <div class="container-fluid">
     <div class="row">
 
-        <!-- Menu lateral desktop -->
         <div class="d-none d-md-block col-md-3 col-lg-2 sidebar">
             <h4>SIMM Operador</h4>
             <ul class="nav flex-column mt-4">
@@ -66,7 +65,6 @@
             </ul>
         </div>
 
-        <!-- Offcanvas / menu mobile -->
         <div class="d-md-none">
             <button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
                 <i class="bi bi-list"></i> Menu
@@ -95,7 +93,6 @@
             </div>
         </div>
 
-        <!-- Conteúdo principal -->
         <div class="col-md-9 col-lg-10 content">
             
             <h3 class="text-primary mb-4">Perfil do Usuário</h3>
@@ -130,7 +127,6 @@
             </ul>
 
             <div class="tab-content">
-                <!-- Aba Perfil -->
                 <div class="tab-pane fade show active" id="perfil">
                     <div class="row">
                         <div class="col-lg-6">
@@ -138,11 +134,16 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-md-4 text-center">
-                                            <img src="{{ $usuario->foto ? asset('storage/'.$usuario->foto) : asset('images/default-user.png') }}"
-                                                 class="img-fluid rounded-circle mb-2" width="150">
+                                            {{-- AJUSTE: Removido asset('storage/') para funcionar com Cloudinary --}}
+                                           <img src="{{ $usuario->foto ?? asset('images/default-user.png') }}"
+                                                    class="img-fluid rounded-circle mb-2" 
+                                                    width="150"
+                                                    style="aspect-ratio: 1/1; object-fit: cover;">
+                                            
+                                            {{-- AJUSTE: Adicionado enctype para permitir upload --}}
                                             <form method="POST" action="{{ route('perfil.foto') }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <input type="file" name="foto" class="form-control form-control-sm mb-2">
+                                                <input type="file" name="foto" class="form-control form-control-sm mb-2" accept="image/*">
                                                 <button class="btn btn-outline-primary btn-sm w-100">Alterar Foto</button>
                                             </form>
                                         </div>
@@ -158,7 +159,6 @@
                             </div>
                         </div>
 
-                        <!-- Editar Dados -->
                         <div class="col-lg-6">
                             <div class="card shadow-sm mb-4">
                                 <div class="card-body">
@@ -176,7 +176,6 @@
                     </div>
                 </div>
 
-                <!-- Aba Privacidade -->
                 <div class="tab-pane fade" id="privacidade">
                     <div class="row">
                         <div class="col-lg-6">
@@ -209,11 +208,4 @@
                     </div>
                 </div>
 
-            </div> <!-- fim tab-content -->
-
-        </div> <!-- fim conteúdo principal -->
-
-    </div> <!-- fim row -->
-</div> <!-- fim container-fluid -->
-
-@endsection
+            </div> </div> </div> </div> @endsection

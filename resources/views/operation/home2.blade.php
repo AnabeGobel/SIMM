@@ -196,9 +196,9 @@
 
             <div class="modal-body row g-3">
                 <div class="col-md-4 text-center">
-                    <img src="{{ $m->foto ? asset('storage/' . $m->foto) : asset('images/default-user.png') }}"
-                         class="img-fluid rounded"
-                         alt="Foto de {{ $m->nome }}">
+                   <img src="{{ $m->foto ?? asset('images/default-user.png') }}"
+     class="img-fluid rounded"
+     alt="Foto de {{ $m->nome }}">
                 </div>
 
                 <div class="col-md-8">

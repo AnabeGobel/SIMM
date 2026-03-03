@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\usuario;
+use Cloudinary\Cloudinary;
 
 class UsuarioController extends Controller
 {
@@ -36,61 +37,83 @@ public function index(Request $request)
     return view('Adm.usuario', compact('usuarios', 'totalAdmins', 'totalOperadores'));
 }
 
-    // Armazena um novo usuário
-    public function store(Request $request)
+   // No método store
+public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|min:3',
-            'email' => 'required|email:rfc,dns|unique:usuarios,email',
-            'password' => [
-                'required',
-                'confirmed', // compara com password_confirmation
-                'min:8',
-                'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/'
-            ],
-            'role' => 'required|in:admin,operador',
-            'ativo' => 'required|boolean',
-        ], [
-            'password.regex' => 'A senha deve conter pelo menos uma letra e um número.',
+            'nome' => 'required|string|max:100',
+            'email' => 'required|email|unique:usuarios,email',
+            'senha' => 'required|string|min:6',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-                usuario::create([
-                'name'     => $request->name,
-                'email'    => $request->email,
-                'telefone' => $request->telefone, 
-                'password' => Hash::make($request->password),
-                'role'     => $request->role,
-                'ativo'    => $request->ativo,
+        $data = $request->all();
+        
+        // Upload Cloudinary
+        if ($request->hasFile('foto')) {
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key'    => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+                'url' => ['secure' => true],
             ]);
 
-        return redirect()->back()->with('success', 'Usuário registrado com sucesso!');
+            $uploadResult = $cloudinary->uploadApi()->upload(
+                $request->file('foto')->getRealPath(),
+                ['folder' => 'usuarios']
+            );
+
+            $data['foto'] = $uploadResult['secure_url'];
+        }
+
+        $data['senha'] = bcrypt($data['senha']); // criptografa senha
+        Usuario::create($data);
+
+        return redirect()->back()->with('success', 'Usuário cadastrado com sucesso!');
     }
 
-    // Formulário de edição
-    public function edit($id)
-    {
-        $usuario = usuario::findOrFail($id); // CORRETO: Usuarios
-        return view('usuarios.edit', compact('usuario'));
-    }
 
-    // Atualiza usuário
-    public function update(Request $request, $id)
+    // No método update
+public function update(Request $request, $id)
     {
+        $usuario = Usuario::findOrFail($id);
+
         $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:usuarios,email,' . $id,
-            'ativo' => 'required|boolean'
+            'nome' => 'required|string|max:100',
+            'email' => "required|email|unique:usuarios,email,{$id}",
+            'senha' => 'nullable|string|min:6',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $usuario = usuario::findOrFail($id); // CORRETO: Usuarios
-        $usuario->update([
-            'name'  => $request->name,
-            'email' => $request->email,
-            'ativo' => $request->ativo
-        ]);
+        $data = $request->only(['nome', 'email']);
+        
+        if ($request->filled('senha')) {
+            $data['senha'] = bcrypt($request->senha);
+        }
 
-        return redirect()->route('Adm.usuario')
-                         ->with('success', 'Usuário atualizado com sucesso');
+        if ($request->hasFile('foto')) {
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key'    => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+                'url' => ['secure' => true],
+            ]);
+
+            $uploadResult = $cloudinary->uploadApi()->upload(
+                $request->file('foto')->getRealPath(),
+                ['folder' => 'usuarios']
+            );
+
+            $data['foto'] = $uploadResult['secure_url'];
+        }
+
+        $usuario->update($data);
+
+        return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
 
     // Remove usuário (apenas operador)

@@ -7,6 +7,7 @@ use App\Models\motoqueiro;
 use App\Models\moto;
 use App\Models\associacao;
 use App\Models\paragem;
+use Cloudinary\Cloudinary;
 
 class MotoqueiroController extends Controller
 {
@@ -63,16 +64,30 @@ public function store(Request $request)
 
     $data = $request->all();
 
-    // 🔹 Se existir foto, salvar no storage e atualizar o path
-   if ($request->hasFile('foto')) {
-    $path = $request->file('foto')->store('motoqueiros', 'public');
-    $data['foto'] = $path; // EX: motoqueiros/GFfQqtSnFlUKSkbjLKgOkZrBI.jpg
+
+ if ($request->hasFile('foto')) {
+    $cloudinary = new Cloudinary([
+        'cloud' => [
+            'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+            'api_key'    => env('CLOUDINARY_API_KEY'),
+            'api_secret' => env('CLOUDINARY_API_SECRET'),
+        ],
+        'url' => [
+            'secure' => true
+        ]
+    ]);
+
+    $uploadResult = $cloudinary->uploadApi()->upload(
+        $request->file('foto')->getRealPath(),
+        ['folder' => 'motoqueiros']
+    );
+
+    $data['foto'] = $uploadResult['secure_url'];
 }
     motoqueiro::create($data);
 
     return redirect()->back()->with('success', 'Motoqueiro cadastrado com sucesso!');
 }
-
 
     /**
      * Display the specified resource.
@@ -107,20 +122,27 @@ public function update(Request $request, $id)
         'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
     ]);
 
-    $data = $request->only([
-        'nome',
-        'telefone',
-        'cor_uniforme',
-        'associacao_id',
-        'paragem_id',
-        'estado',
+    $data = $request->only(['nome', 'telefone', 'cor_uniforme', 'associacao_id', 'paragem_id', 'estado']);
+
+if ($request->hasFile('foto')) {
+    $cloudinary = new Cloudinary([
+        'cloud' => [
+            'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+            'api_key'    => env('CLOUDINARY_API_KEY'),
+            'api_secret' => env('CLOUDINARY_API_SECRET'),
+        ],
+        'url' => [
+            'secure' => true
+        ]
     ]);
 
-    // Atualizar foto se existir
-    if ($request->hasFile('foto')) {
-        $path = $request->file('foto')->store('motoqueiros', 'public');
-        $data['foto'] = $path;
-    }
+    $uploadResult = $cloudinary->uploadApi()->upload(
+        $request->file('foto')->getRealPath(),
+        ['folder' => 'motoqueiros']
+    );
+
+    $data['foto'] = $uploadResult['secure_url'];
+}
 
     $motoqueiro->update($data);
 

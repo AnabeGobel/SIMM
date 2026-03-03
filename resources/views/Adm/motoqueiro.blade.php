@@ -148,35 +148,56 @@
 
 <!-- Modal Detalhes -->
 <!--Model de Visualizacao-->
+<!-- Modal de Visualização -->
 @foreach($motoqueiros as $m)
 <div class="modal fade" id="viewMotoqueiroModal{{ $m->id }}" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
+            <!-- Cabeçalho -->
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">Detalhes do Motoqueiro</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body row g-3">
-                <div class="col-md-4 text-center">
-                    <img src="{{ $m->foto ? asset('storage/' . $m->foto) : asset('images/default-user.png') }}" class="img-fluid rounded" alt="Foto">
+
+            <!-- Corpo do Modal -->
+            <div class="modal-body">
+                <div class="row g-3">
+                    <!-- Foto -->
+                    <div class="col-md-4 text-center">
+                        <img src="{{ $m->foto ?? asset('images/default-user.png') }}" 
+                             class="img-fluid rounded shadow-sm" 
+                             alt="Foto de {{ $m->nome }}" 
+                             style="max-height: 250px; object-fit: cover;">
+                    </div>
+
+                    <!-- Dados -->
+                    <div class="col-md-8">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Nome:</strong> {{ $m->nome }}</li>
+                            <li class="list-group-item"><strong>Data Nascimento:</strong> {{ \Carbon\Carbon::parse($m->data_nascimento)->format('d/m/Y') }}</li>
+                            <li class="list-group-item"><strong>Telefone:</strong> {{ $m->telefone }}</li>
+                            <li class="list-group-item"><strong>Endereço:</strong> {{ $m->endereco }}</li>
+                            <li class="list-group-item"><strong>Cor do Colete:</strong> {{ $m->cor_uniforme }}</li>
+                            <li class="list-group-item"><strong>Marca da Moto:</strong> {{ optional($m->motos->first())->marca ?? '-' }}</li>
+                            <li class="list-group-item"><strong>Associação:</strong> {{ optional($m->associacao)->nome ?? '-' }}</li>
+                            <li class="list-group-item"><strong>Paragem:</strong> {{ optional($m->paragem)->nome ?? '-' }}/{{ optional($m->paragem)->bairro ?? '-' }}</li>
+                            <li class="list-group-item"><strong>Status:</strong> 
+                                <span class="badge {{ $m->estado == 'Ativo' ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $m->estado }}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <p><strong>Nome:</strong> {{ $m->nome }}</p>
-                    <p><strong>Data Nascimento:</strong> {{ \Carbon\Carbon::parse($m->data_nascimento)->format('d/m/Y') }}</p>
-                    <p><strong>Telefone:</strong> {{ $m->telefone }}</p>
-                    <p><strong>Endereço:</strong> {{ $m->endereco }}</p>
-                    <p><strong>Cor do Colete:</strong> {{ $m->cor_uniforme }}</p>
-                    <p><strong>Marca da Moto:</strong> {{ optional($m->motos->first())->marca ?? '-' }}</p>
-                    <p><strong>Associação:</strong> {{ optional($m->associacao)->nome ?? '-' }}</p>
-                    <p><strong>Paragem:</strong> {{ optional($m->paragem)->nome ?? '-' }}/{{ optional($m->paragem)->bairro ?? '-' }}</p>
-                    <p><strong>Status:</strong> {{ $m->estado }}</p>
-                </div>
+            </div>
+
+            <!-- Rodapé -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
 </div>
-
-
 @endforeach
 
 <!-- Modal Adicionar -->
@@ -358,6 +379,17 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-md-6">
+                    <label>Endereço</label>
+                    <input type="text" name="endereco" value="{{ $m->endereco }}" class="form-control">
+                </div>
+                <div class="col-md-6">
+                        <label>Foto</label>
+                        <input type="file" name="foto" class="form-control">
+                        @if($m->foto)
+                            <img src="{{ $m->foto }}" alt="Foto atual" style="width:80px; margin-top:5px;">
+                        @endif
+                    </div>
 
 
                     <div class="col-md-6">
