@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
                 'data_ocorrencia',
                 'estado',
 ];
-protected $dates = ['criado_em'];
+protected $dates = ['created_at'];
 
     public function motoqueiro()
     {
