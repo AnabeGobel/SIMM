@@ -12,7 +12,7 @@ class OcorrenciaController extends Controller
     public function index()
     {
         $ocorrencias = ocorrencias::with(['motoqueiro', 'operador'])
-            ->orderBy('criado_em', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $motoqueiros = motoqueiro::all();
