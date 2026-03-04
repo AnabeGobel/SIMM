@@ -61,7 +61,6 @@
             <ul class="nav flex-column mt-4">
                 <li class="nav-item"><a class="nav-link" href="{{ route('operador.home2') }}"><i class="bi bi-search me-2"></i> Pesquisa</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('operation.perfiMo') }}"><i class="bi bi-person-badge me-2"></i> Motoqueiro</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('operation.relatorio') }}"><i class="bi bi-bar-chart-line me-2"></i> Relatório</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('operador.ocorrencia') }}"><i class="bi bi-clock-history me-2"></i> Ocorrência</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('perfil') }}"><i class="bi bi-person-badge me-2"></i> Perfil Completo</a></li>
                 <li class="nav-item mt-3">
@@ -88,7 +87,6 @@
                     <ul class="nav flex-column">
                         <li class="nav-item"><a class="nav-link" href="{{ route('operador.home2') }}"><i class="bi bi-search me-2"></i> Pesquisa</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('operation.perfiMo') }}"><i class="bi bi-person-badge me-2"></i> Motoqueiro</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('operation.relatorio') }}"><i class="bi bi-bar-chart-line me-2"></i> Relatório</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('operador.ocorrencia') }}"><i class="bi bi-clock-history me-2"></i> Ocorrência</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('perfil') }}"><i class="bi bi-person-badge me-2"></i> Perfil Completo</a></li>
                         <li class="nav-item mt-3">
