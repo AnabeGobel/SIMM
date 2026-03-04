@@ -12,7 +12,7 @@ class backupController extends Controller
     public function index()
     {
         //
-         return view('Adm.backup');
+         return view('adm.backup');
     }
 
     /**

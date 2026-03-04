@@ -37,7 +37,7 @@ public function index(Request $request)
     $totalOcorrencias = ocorrencias::count();
 
     // Gráfico meses
-    $registrosPorMes = motoqueiro::select(DB::raw('MONTH(created_at) as mes'), DB::raw('COUNT(*) as total'))
+    $registrosPorMes = motoqueiro::select(DB::raw('MONTH(criado_em) as mes'), DB::raw('COUNT(*) as total'))
         ->groupBy('mes')->orderBy('mes')->get();
 
     $nomeMeses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
