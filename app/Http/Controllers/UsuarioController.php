@@ -41,9 +41,9 @@ public function index(Request $request)
 public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'email' => 'required|email|unique:usuarios,email',
-            'senha' => 'required|string|min:6',
+            'password' => 'required|string|min:6',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -68,7 +68,7 @@ public function store(Request $request)
             $data['foto'] = $uploadResult['secure_url'];
         }
 
-        $data['senha'] = bcrypt($data['senha']); // criptografa senha
+        $data['password'] = bcrypt($data['password']); // criptografa senha
         Usuario::create($data);
 
         return redirect()->back()->with('success', 'Usuário cadastrado com sucesso!');
@@ -81,16 +81,16 @@ public function update(Request $request, $id)
         $usuario = Usuario::findOrFail($id);
 
         $request->validate([
-            'nome' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'email' => "required|email|unique:usuarios,email,{$id}",
-            'senha' => 'nullable|string|min:6',
+            'password' => 'nullable|string|min:6',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['nome', 'email']);
+        $data = $request->only(['name', 'email']);
         
-        if ($request->filled('senha')) {
-            $data['senha'] = bcrypt($request->senha);
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
         }
 
         if ($request->hasFile('foto')) {

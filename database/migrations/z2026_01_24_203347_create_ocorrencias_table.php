@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('local', 150);
              $table->timestamp('data_ocorrencia'); 
             $table->string('estado', 20); 
-           $table->timestamps();
+           $table->timestamp('created_at')->nullable();
         });
     }
 
