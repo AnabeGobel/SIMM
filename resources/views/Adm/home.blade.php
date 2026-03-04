@@ -83,11 +83,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link px-3 d-flex align-items-center justify-content-center" href="{{ route('Adm.backup') }}">
-                            <i class="bi bi-cloud-arrow-down me-2"></i> Backup
-                        </a>
-                    </li>
+                    
                     
                     <li class="nav-item">
                         <a class="nav-link px-3 d-flex align-items-center justify-content-center" href="{{ route('perfilAdm') }}">
