@@ -15,7 +15,7 @@ class AdminController extends Controller
      public function perfilAdm()
 {
     $usuario = auth()->user();
-    return view('adm.Adm', compact('usuario'));
+    return view('adm.adm', compact('usuario'));
 }
 
 public function atualizarperfilAdm(Request $request)
